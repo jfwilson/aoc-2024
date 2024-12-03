@@ -1,4 +1,4 @@
-use anyhow::{anyhow, Result};
+use anyhow::Result;
 use itertools::Itertools;
 use std::{
     fs::File,
@@ -34,7 +34,9 @@ fn is_subset_safe(row: &Vec<isize>, temp: &mut Vec<isize>) -> bool {
         temp.clear();
         temp.extend_from_slice(&row[0..i]);
         temp.extend_from_slice(&row[(i + 1)..row.len()]);
-        if is_safe(&temp) { return true }
+        if is_safe(&temp) {
+            return true;
+        }
     }
     false
 }
@@ -42,15 +44,21 @@ fn is_subset_safe(row: &Vec<isize>, temp: &mut Vec<isize>) -> bool {
 fn problem2_solution(input: &Vec<String>) -> Result<usize> {
     let ns = parse_input(input);
     let mut temp = Vec::new();
-    Ok(ns.into_iter().filter(|row| {
-        is_safe(row) || is_subset_safe(row, &mut temp)
-    }).count())
+    Ok(ns
+        .into_iter()
+        .filter(|row| is_safe(row) || is_subset_safe(row, &mut temp))
+        .count())
 }
 
 fn parse_input(input: &Vec<String>) -> Vec<Vec<isize>> {
-    input.into_iter().map(|line| {
-        line.split_whitespace().map(|num| num.parse().unwrap()).collect()
-    }).collect()
+    input
+        .into_iter()
+        .map(|line| {
+            line.split_whitespace()
+                .map(|num| num.parse().unwrap())
+                .collect()
+        })
+        .collect()
 }
 
 #[cfg(test)]
